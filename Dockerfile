@@ -3,7 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 ADD babel.config.js vue.config.js /app/
-ADD node_modules /app/node_modules
 ADD public /app/public
 ADD src /app/src
 RUN npm run build
