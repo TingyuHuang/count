@@ -17,7 +17,6 @@
       :loading="loading"
       :sort-by="['count']"
       :sort-desc="[true]"
-      hide-default-footer
     >
     </v-data-table>
   </v-container>
