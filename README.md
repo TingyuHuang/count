@@ -1,24 +1,22 @@
 # count-files
 
-## Project setup
+count-files is a simple web app for counting filename pattern of
+
 ```
-npm install
+xxxxxxxx-[pattern].tst
 ```
 
-### Compiles and hot-reloads for development
+## How to build it
+
 ```
-npm run serve
+docker build -t count-files .
 ```
 
-### Compiles and minifies for production
+## Install from Dockerhub
+
 ```
-npm run build
+docker pull tingyuhuang/count-files
+docker run -p 8080:80 -t tingyuhuang/count-files
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Then, visit `http://localhost:8080`
