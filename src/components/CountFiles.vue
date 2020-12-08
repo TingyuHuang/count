@@ -49,13 +49,13 @@
       handleFileChange(files) {
         this.patterns = {}
 
-        let re = /.*-([\w]*)\.tst/
+        let re = /.*-([^-]*)\.tst/
         for (let file of files) {
           let m = re.exec(file.name)
 
           if (m.length != 2) {
             console.log('Unable to handle file:', file.name)
-            return
+            continue
           }
 
           let pattern = m[1]
