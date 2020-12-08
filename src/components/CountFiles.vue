@@ -10,29 +10,16 @@
       label="Choose .tst files"
     ></v-file-input>
 
-    <v-simple-table>
-      <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            Name
-          </th>
-          <th class="text-left">
-            Count
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(count, pattern) in patterns"
-          :key="pattern"
-        >
-          <td>{{ pattern }}</td>
-          <td>{{ count }}</td>
-        </tr>
-      </tbody>
-    </template>
-    </v-simple-table>
+    <v-data-table
+      :headers="headers"
+      :items="patterns"
+      item-key="name"
+      :loading="loading"
+      :sort-by="['count']"
+      :sort-desc="[true]"
+      hide-default-footer
+    >
+    </v-data-table>
   </v-container>
 </template>
 
@@ -41,15 +28,30 @@
     name: 'CountFiles',
 
     data: () => ({
+      loading: false,
+      headers: [{
+        text: 'Name',
+        align: 'start',
+        sortable: false,
+        value: 'name',
+      }, {
+        text: 'Count',
+        align: 'start',
+        sortable: true,
+        value: 'count',
+      }],
       files: [],
-      patterns: {},
+      patterns: [],
     }),
 
     methods: {
       handleFileChange(files) {
-        this.patterns = {}
-
+        let countOf = {}
         let re = /.*-([^-]*)\.tst/
+
+        this.loading = true
+        this.patterns = []
+
         for (let file of files) {
           let m = re.exec(file.name)
 
@@ -59,11 +61,17 @@
           }
 
           let pattern = m[1]
-          if (this.patterns[pattern] === undefined) {
-            this.patterns[pattern] = 0
+          if (countOf[pattern] === undefined) {
+            countOf[pattern] = 0
           }
-          this.patterns[pattern] += 1
+          countOf[pattern] += 1
         }
+
+        for (let pattern of Object.keys(countOf)) {
+          this.patterns.push({name: pattern, count: countOf[pattern]})
+        }
+
+        this.loading = false
       },
     },
   }
