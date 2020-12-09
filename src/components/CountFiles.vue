@@ -45,8 +45,8 @@
 
     methods: {
       handleFileChange(files) {
-        let countOf = {}
-        let re = /.*-([^-]*)\.tst/
+        let countOf = {'*unhandled*': 0}
+        let re = /^.*-([\w]*)(?:-[\W]+)?\.tst$/
 
         this.loading = true
         this.patterns = []
@@ -54,7 +54,8 @@
         for (let file of files) {
           let m = re.exec(file.name)
 
-          if (m.length != 2) {
+          if (m === null || m.length != 2) {
+            countOf['*unhandled*'] += 1
             console.log('Unable to handle file:', file.name)
             continue
           }
